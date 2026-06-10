@@ -1,7 +1,7 @@
 # DevForge: Execution Foundation Plan (Final)
 
 ## 1. Final Repository Structure
-We will use an **npm workspaces** monorepo supercharged with **Turborepo** for caching and orchestration.
+I will use an **npm workspaces** monorepo supercharged with **Turborepo** for caching and orchestration.
 ```text
 e:\devForge\
   ├── apps/
@@ -74,3 +74,4 @@ Following **Conventional Commits** (`feat:`, `fix:`, `chore:`, `refactor:`, `doc
 
 ### **Day 7: Search + Notifications**
 * FTS search implementation and notification polling.
+

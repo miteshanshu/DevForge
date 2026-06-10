@@ -388,7 +388,7 @@ view UnifiedFeed {
 
 ## 4. Constraints (Raw SQL Migrations Required)
 
-To guarantee data consistency beyond Prisma's capability, we will implement the following `CHECK` constraints using a raw SQL migration immediately after initializing the schema:
+To guarantee data consistency beyond Prisma's capability, I will implement the following `CHECK` constraints using a raw SQL migration immediately after initializing the schema:
 
 1. **Comment Entity Check:**
    Ensures a comment is attached to exactly one entity type.
@@ -418,7 +418,7 @@ To guarantee data consistency beyond Prisma's capability, we will implement the 
 
 ## 5. Indexes (GIN & FTS Strategy)
 
-For blazing-fast PostgreSQL Full Text Search without external infrastructure, we will use another raw SQL migration to build GIN indexes over generated `tsvector` data:
+For blazing-fast PostgreSQL Full Text Search without external infrastructure, I will use another raw SQL migration to build GIN indexes over generated `tsvector` data:
 
 1. **Project FTS Index:**
    ```sql
@@ -473,3 +473,4 @@ To execute this architecture properly for a V1 launch:
 
 ## User Review Required
 Please review the Prisma schema above. It incorporates all your requested modifications: the standalone `Media` table, `UserSettings`, expanded `Notification` payload, `UnifiedFeed` view, and future-proofing structures. If everything is perfect, you now have the complete foundational architecture and database layer necessary to begin execution!
+

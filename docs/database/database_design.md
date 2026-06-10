@@ -111,8 +111,8 @@ erDiagram
 
 **Key Design Decisions:**
 * **Explicit Nullable Relations:** Instead of polymorphic strings (which Prisma struggles with natively without complex queries), `Comment` and `Reaction` tables will use explicit optional foreign keys (`postId`, `buildLogId`, `commentId`) combined with database-level CHECK constraints. This ensures referential integrity and makes querying fast.
-* **Unified Feed Strategy:** Because Prisma does not support `UNION` queries natively, we will create a PostgreSQL View (`unified_feed_view`) that unions `Post` and `BuildLog` data. Prisma will map to this view to allow seamless, paginated feed fetching that includes both content types chronologically.
-* **Full Text Search (FTS):** We will utilize PostgreSQL's built-in `tsvector` and GIN indexes for performant text search over Users, Projects, Posts, and Build Logs, directly accessible via Prisma's `search` query parameters.
+* **Unified Feed Strategy:** Because Prisma does not support `UNION` queries natively, I will create a PostgreSQL View (`unified_feed_view`) that unions `Post` and `BuildLog` data. Prisma will map to this view to allow seamless, paginated feed fetching that includes both content types chronologically.
+* **Full Text Search (FTS):** I will utilize PostgreSQL's built-in `tsvector` and GIN indexes for performant text search over Users, Projects, Posts, and Build Logs, directly accessible via Prisma's `search` query parameters.
 * **Tags Handling:** Implicit many-to-many relationships in Prisma for simplicity (`_PostToTag`, `_ProjectToTag`).
 
 ---
@@ -237,7 +237,7 @@ To support full-text search and rapid feed generation, the following indexes are
 * **Sorting Indexes:** `Post(createdAt DESC)`, `BuildLog(createdAt DESC)` for paginated feeds.
 
 ### 6.2. GIN Indexes (Full Text Search)
-We will leverage Prisma's FTS support in PostgreSQL. Raw SQL migrations will be used to create GIN indexes on derived `tsvector` columns.
+I will leverage Prisma's FTS support in PostgreSQL. Raw SQL migrations will be used to create GIN indexes on derived `tsvector` columns.
 * `Project`: `CREATE INDEX project_fts_idx ON "Project" USING GIN (to_tsvector('english', title || ' ' || description));`
 * `Post`: `CREATE INDEX post_fts_idx ON "Post" USING GIN (to_tsvector('english', title || ' ' || content));`
 * `BuildLog`: `CREATE INDEX buildlog_fts_idx ON "BuildLog" USING GIN (to_tsvector('english', content));`
@@ -260,9 +260,9 @@ To ensure data integrity on tables with explicit nullable foreign keys (polymorp
 ## 8. Soft Delete Strategy
 
 For V1, hard deletes can cause cascading data loss (e.g., deleting a user deletes all their valuable posts, ruining discussion threads).
-* We will implement a `deletedAt DateTime?` column on `User`, `Project`, `Post`, and `BuildLog`.
-* **Prisma Implementation:** We will use a Prisma Client Extension (Query Extension) to automatically append `{ deletedAt: null }` to all `findMany` and `findUnique` operations globally.
-* When a user "deletes" a post, we run `UPDATE Post SET deletedAt = now()`. The content remains in the DB for audit/recovery but is seamlessly hidden from the application layer.
+* I will implement a `deletedAt DateTime?` column on `User`, `Project`, `Post`, and `BuildLog`.
+* **Prisma Implementation:** I will use a Prisma Client Extension (Query Extension) to automatically append `{ deletedAt: null }` to all `findMany` and `findUnique` operations globally.
+* When a user "deletes" a post, I run `UPDATE Post SET deletedAt = now()`. The content remains in the DB for audit/recovery but is seamlessly hidden from the application layer.
 
 ---
 
@@ -275,4 +275,5 @@ Every single table in the database will include standard audit columns:
 *(Note: `updatedAt` is natively handled by Prisma's `@updatedAt` directive, ensuring the timestamp is modified on any `UPDATE` operation automatically).*
 
 ## User Review Required
-Please review the Database Design Document. Specifically, check the approach to **Full Text Search (GIN indexes)**, the **CHECK Constraints** to manage Comments and Reactions safely in Prisma, and the **Unified Feed View** strategy. If the schema aligns with your expectations, we are ready to initialize the Next.js project and write the raw Prisma schema!
+Please review the Database Design Document. Specifically, check the approach to **Full Text Search (GIN indexes)**, the **CHECK Constraints** to manage Comments and Reactions safely in Prisma, and the **Unified Feed View** strategy. If the schema aligns with your expectations, I are ready to initialize the Next.js project and write the raw Prisma schema!
+
