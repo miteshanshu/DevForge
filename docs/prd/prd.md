@@ -1,7 +1,7 @@
 # DevForge: Product Requirements Document (V1)
 
 ## Overview
-This PRD outlines the revised V1 scope for **DevForge**. It focuses on Developer Identity, Project Showcasing, "Build in Public" loops, and community interaction, while adhering to the single-developer constraint (3-6 month timeline).
+This PRD outlines the revised V1 scope for **DevForge**. It focuses on Developer Identity, Project Showcasing, "Build in Public" loops, and community interaction.
 
 ---
 
