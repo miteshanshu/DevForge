@@ -1,5 +1,15 @@
 # DevForge
 
+> 🚧 **Work in Progress**
+> DevForge is currently under active development. Features, APIs, and UI may change as the platform evolves.
+
+### Current Status
+- ✅ **Phase 1 (Completed):** Architecture design, monorepo scaffolding (Turborepo, Next.js, Express), and Prisma database schema migration & seeding.
+- 🔄 **Phase 2 (In Progress):** Authentication (Email/Password, JWT, GitHub OAuth).
+- 📅 **Upcoming:** Developer Profiles, Project Showcases, and Build Logs.
+
+---
+
 The **Unified Developer Ecosystem** where developers learn, build, share, collaborate, and grow without leaving the platform. 
 
 DevForge brings together the best features of code hosting, Q&A, discussions, and developer networking into a single, cohesive experience.
