@@ -14,3 +14,24 @@ I will use **PostgreSQL** as My primary database instead of MongoDB. I will mana
 - **Positive:** I can leverage PostgreSQL's native `tsvector` and GIN indexing for Full Text Search, avoiding the need for an external service like Elasticsearch in V1.
 - **Negative:** Schema rigidity requires formal migrations compared to MongoDB's flexibility, though Prisma mitigates much of the developer friction.
 
+## Data Relationship Overview (Why Relational Matters)
+
+The following diagram illustrates the heavily interconnected nature of the DevForge data model, which makes a relational database like PostgreSQL ideal for enforcing referential integrity.
+
+```mermaid
+erDiagram
+    USER ||--o{ PROJECT : "creates (owner)"
+    USER ||--o{ BUILD_LOG : "writes"
+    USER ||--o{ POST : "publishes"
+    USER ||--o{ COMMENT : "authors"
+    USER ||--o{ REACTION : "leaves"
+
+    PROJECT ||--o{ BUILD_LOG : "contains"
+    
+    POST ||--o{ COMMENT : "has"
+    BUILD_LOG ||--o{ COMMENT : "has"
+
+    POST ||--o{ REACTION : "receives"
+    BUILD_LOG ||--o{ REACTION : "receives"
+    COMMENT ||--o{ REACTION : "receives"
+```
