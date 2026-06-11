@@ -4,10 +4,10 @@
 
 The domain model is structured to support the core value proposition of Developer Identity, Portfolio (Projects), "Build in Public" (Build Logs), and Community (Posts, Feed).
 
-1. **Identity & Social Domain**: `User`, `Follows`
+1. **Identity & Social Domain**: `User`, `UserSettings`, `Follows`
 2. **Portfolio Domain**: `Project`, `ProjectContributor`
-3. **Content & Build Domain**: `BuildLog`, `Post`, `Tag`
-4. **Interaction Domain**: `Comment`, `Reaction`
+3. **Content & Build Domain**: `BuildLog`, `Post`, `Tag`, `Media`
+4. **Interaction Domain**: `Comment`, `Reaction`, `Bookmark`, `Mention`
 5. **Engagement Domain**: `Notification`, `UnifiedFeed` (Database View)
 
 ---
@@ -39,7 +39,6 @@ erDiagram
         String content
         String projectId FK
         String authorId FK
-        String milestone
     }
     POST {
         String id PK
@@ -64,20 +63,10 @@ erDiagram
         String buildLogId FK "nullable"
         String commentId FK "nullable"
     }
-    TAG {
+    MEDIA {
         String id PK
-        String name UK
-        String slug UK
-    }
-    FOLLOWS {
-        String followerId FK
-        String followingId FK
-    }
-    NOTIFICATION {
-        String id PK
-        String recipientId FK
-        String actorId FK
-        Enum type
+        String url
+        String uploadedById FK
     }
 
     USER ||--o{ PROJECT : "owns"
@@ -91,6 +80,7 @@ erDiagram
     USER ||--o{ FOLLOWS : "is follower"
     USER ||--o{ FOLLOWS : "is following"
     USER ||--o{ NOTIFICATION : "receives"
+    USER ||--o{ MEDIA : "uploads"
     
     POST ||--o{ COMMENT : "has"
     BUILD_LOG ||--o{ COMMENT : "has"
@@ -125,21 +115,33 @@ erDiagram
 | `id` | UUID | PK | Standard unique identifier |
 | `email` | String | Unique, Not Null | Primary auth |
 | `username` | String | Unique, Not Null | Profile slug |
-| `passwordHash` | String | Nullable | Null if GitHub OAuth only |
-| `githubId` | String | Unique, Nullable | OAuth identifier |
+| `passwordHash` | String | Nullable | Null if OAuth only |
+| `githubId` | String | Unique, Nullable | GitHub OAuth identifier |
+| `googleId` | String | Unique, Nullable | Google OAuth identifier |
+| `tokenVersion`| Int | Default(0) | For token invalidation |
 | `name` | String | Nullable | Display name |
 | `bio` | String | Nullable | Max 255 chars |
-| `avatarUrl` | String | Nullable | URL from Azure/GitHub |
+| `location` | String | Nullable | User location |
+| `skills` | String[] | Default([]) | Technical skills |
+| `socialLinks` | Json | Nullable | Links (Twitter, LinkedIn, etc) |
 | `score` | Int | Default(0) | Contribution score |
 
-### 4.2. Follows (Join Table)
+### 4.2. UserSettings
+| Field | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | UUID | PK | |
+| `userId` | UUID | Unique, FK | |
+| `emailNotifications`| Boolean | Default(true)| |
+| `theme` | String | Default("system")| |
+| `profileVisibility` | String | Default("public")| |
+
+### 4.3. Follows (Join Table)
 | Field | Type | Constraints | Description |
 |---|---|---|---|
 | `followerId` | UUID | PK(FK) | The user who is following |
 | `followingId` | UUID | PK(FK) | The user being followed |
-| `createdAt` | DateTime | Default(now()) | For chronological feeds |
 
-### 4.3. Projects
+### 4.4. Projects
 | Field | Type | Constraints | Description |
 |---|---|---|---|
 | `id` | UUID | PK | |
@@ -148,16 +150,8 @@ erDiagram
 | `description`| String | Not Null | |
 | `repositoryUrl`| String | Nullable | |
 | `liveUrl` | String | Nullable | |
-| `coverImage` | String | Nullable | Azure Blob URL |
+| `projectStatus`| Enum | Default(IDEA)| `IDEA`, `BUILDING`, `BETA`, `PRODUCTION` |
 | `ownerId` | UUID | FK | Creator of project |
-
-### 4.4. ProjectContributors
-| Field | Type | Constraints | Description |
-|---|---|---|---|
-| `id` | UUID | PK | |
-| `projectId` | UUID | FK | |
-| `userId` | UUID | FK | |
-| `role` | Enum | Not Null | `OWNER`, `MAINTAINER`, `CONTRIBUTOR` |
 
 ### 4.5. BuildLogs
 | Field | Type | Constraints | Description |
@@ -166,8 +160,7 @@ erDiagram
 | `projectId` | UUID | FK | Ties update to project |
 | `authorId` | UUID | FK | The contributor who wrote it |
 | `content` | Text | Not Null | Markdown content |
-| `images` | String[] | Default([]) | Array of Azure Blob URLs |
-| `milestone` | String | Nullable | e.g. "v1.0" |
+| `status` | Enum | Default(UPDATE)| `UPDATE`, `MILESTONE`, `RELEASE` |
 
 ### 4.6. Posts
 | Field | Type | Constraints | Description |
@@ -198,14 +191,24 @@ erDiagram
 | `buildLogId` | UUID | FK, Nullable | |
 | `commentId` | UUID | FK, Nullable | |
 
-### 4.9. Notifications
+### 4.9. Media
+| Field | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | UUID | PK | |
+| `url` | String | Not Null | Azure Blob URL |
+| `mimeType` | String | Not Null | |
+| `uploadedById`| UUID | FK | |
+
+### 4.10. Notifications
 | Field | Type | Constraints | Description |
 |---|---|---|---|
 | `id` | UUID | PK | |
 | `recipientId` | UUID | FK | Who receives it |
 | `actorId` | UUID | FK | Who triggered it |
 | `type` | Enum | Not Null | `NEW_COMMENT`, `NEW_FOLLOWER`, `REACTION` |
-| `entityPath` | String | Not Null | The UI path to redirect to (e.g. `/post/123`) |
+| `entityType` | Enum | Not Null | `POST`, `PROJECT`, `BUILD_LOG`, etc. |
+| `entityId` | UUID | Not Null | ID of the entity |
+| `metadata` | Json | Nullable | Extra payload data |
 | `isRead` | Boolean | Default(false) | |
 
 ---
@@ -273,7 +276,3 @@ Every single table in the database will include standard audit columns:
 * `updatedAt DateTime @updatedAt`
 
 *(Note: `updatedAt` is natively handled by Prisma's `@updatedAt` directive, ensuring the timestamp is modified on any `UPDATE` operation automatically).*
-
-## User Review Required
-Please review the Database Design Document. Specifically, check the approach to **Full Text Search (GIN indexes)**, the **CHECK Constraints** to manage Comments and Reactions safely in Prisma, and the **Unified Feed View** strategy. If the schema aligns with your expectations, I are ready to initialize the Next.js project and write the raw Prisma schema!
-
