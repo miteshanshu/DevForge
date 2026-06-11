@@ -5,8 +5,9 @@
 
 ### Current Status
 - ✅ **Phase 1 (Completed):** Architecture design, monorepo scaffolding (Turborepo, Next.js, Express), and Prisma database schema migration & seeding.
-- 🔄 **Phase 2 (In Progress):** Authentication (Email/Password, JWT, GitHub OAuth).
-- 📅 **Upcoming:** Developer Profiles, Project Showcases, and Build Logs.
+- ✅ **Phase 2 (Completed):** Authentication (Email/Password, JWT, GitHub OAuth, Google OAuth).
+- 🔄 **Phase 3 (In Progress):** Developer Profiles (Bio, Skills, Social Links, Activity Feed).
+- 📅 **Upcoming:** Project Showcases and Build Logs.
 
 ---
 
