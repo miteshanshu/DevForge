@@ -23,7 +23,8 @@ The domain model is structured to support the core value proposition of Develope
     "primaryBorderColor": "#312e81",
     "lineColor": "#8b5cf6",
     "secondaryColor": "#ec4899",
-    "tertiaryColor": "#14b8a6"
+    "tertiaryColor": "#14b8a6",
+    "altBackground": "#3730a3"
   }
 }}%%
 erDiagram
