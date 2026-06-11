@@ -85,7 +85,6 @@ export const login = async (req: Request, res: Response) => {
         email: user.email,
         username: user.username,
         name: user.name,
-        avatar: user.avatar,
       },
     });
   } catch (error) {
