@@ -2,7 +2,11 @@ import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 
+import dotenv from 'dotenv';
+dotenv.config({ path: '../../.env' }); // Fallback for when db is imported before dotenv in api
+
 const connectionString = `${process.env.DATABASE_URL}`;
+console.log('DB init connectionString:', connectionString);
 
 const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);

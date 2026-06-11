@@ -24,6 +24,10 @@ export const apiClient = {
       } catch (err) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+      if (errorData.errors && Array.isArray(errorData.errors)) {
+        const validationErrors = errorData.errors.map((e: any) => e.message).join(', ');
+        throw new Error(validationErrors || errorData.message || 'API request failed');
+      }
       throw new Error(errorData.message || 'API request failed');
     }
 
