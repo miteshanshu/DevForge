@@ -8,10 +8,10 @@ This PRD outlines the revised V1 scope for **DevForge**. It focuses on Developer
 ## 1. Authentication
 **Goals:** Provide frictionless onboarding while maintaining security.
 * **User Stories:**
-  * As a developer, I can sign up/login using GitHub so my profile info is automatically imported.
+  * As a developer, I can sign up/login using GitHub or Google so my profile info is automatically imported.
   * As a user, I can sign up using my email and password.
 * **Acceptance Criteria:**
-  * GitHub OAuth pulls `username`, `avatar_url`, and `email`.
+  * GitHub/Google OAuth pulls `username` (or name), `avatar_url`, and `email`.
   * JWT-based authentication stored in `HttpOnly` cookies.
   * Unified login/signup modal.
 * **Validation Rules:**
@@ -19,12 +19,12 @@ This PRD outlines the revised V1 scope for **DevForge**. It focuses on Developer
   * Emails must be unique.
 * **Edge Cases:** User signs up with email, then later clicks "Login with GitHub" using the same email. The system must seamlessly link the accounts.
 * **Permissions:** Publicly accessible.
-* **Dependencies:** GitHub OAuth Application, `Users` table.
+* **Dependencies:** GitHub/Google OAuth Applications, `Users` table.
 
 ## 2. Developer Profiles
 **Goals:** Serve as the central hub for a developer's identity, skills, and platform activity.
 * **User Stories:**
-  * As a user, I can edit my bio, skills, and external social links.
+  * As a user, I can edit my bio, location, technical skills, and external social links.
   * As a visitor, I can view a developer's Projects, Build Logs, and Contribution Score.
 * **Acceptance Criteria:**
   * Profile URL structure: `/u/[username]`.
@@ -173,6 +173,6 @@ This PRD outlines the revised V1 scope for **DevForge**. It focuses on Developer
 * **Permissions:** System managed.
 * **Dependencies:** Core interaction modules.
 
-## User Review Required
-Please review the complete PRD logic, specifically focusing on the new **Build Logs** module and the implementation mechanism for the **Contribution Score**. If everything aligns perfectly with your expectations, this document provides the necessary blueprint for Me to start writing the database schema and initialization code!
+## 12. Current Status
+Phase 1 (Architecture), Phase 2 (Authentication), and Phase 3.5 (Landing Page & Global UI) are complete. The project is currently transitioning into Phase 4 (Projects & Showcases).
 
