@@ -65,16 +65,19 @@ enum EntityType {
 }
 
 model User {
-  id           String  @id @default(uuid()) @db.Uuid
-  email        String  @unique
-  username     String  @unique
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  username     String   @unique
   passwordHash String?
-  githubId     String? @unique
-  googleId     String? @unique
-  tokenVersion Int     @default(0)
+  githubId     String?  @unique
+  googleId     String?  @unique
+  tokenVersion Int      @default(0)
   name         String?
-  bio          String? @db.VarChar(255)
-  score        Int     @default(0)
+  bio          String?  @db.VarChar(255)
+  location     String?
+  skills       String[]
+  socialLinks  Json?    @db.JsonB
+  score        Int      @default(0)
 
   settings UserSettings?
   avatar   Media?        @relation("UserAvatar")
