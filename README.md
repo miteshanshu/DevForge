@@ -7,6 +7,7 @@
 - ✅ **Phase 1 (Completed):** Architecture design, monorepo scaffolding (Turborepo, Next.js, Express), and Prisma database schema migration & seeding.
 - ✅ **Phase 2 (Completed):** Authentication (Email/Password, JWT, GitHub OAuth, Google OAuth).
 - ✅ **Phase 3 (Completed):** Developer Profiles (Bio, Skills, Social Links, Activity Feed).
+- ✅ **Phase 3.5 (Completed):** Global Navigation UI, Zustand Auth Sync, and Landing Page Overhaul.
 - 🔄 **Phase 4 (In Progress):** Project Showcases (Create/Edit Projects, List Projects).
 - 📅 **Upcoming:** Build Logs and Social Features.
 
