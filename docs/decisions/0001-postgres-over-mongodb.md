@@ -19,6 +19,16 @@ I will use **PostgreSQL** as My primary database instead of MongoDB. I will mana
 The following diagram illustrates the heavily interconnected nature of the DevForge data model, which makes a relational database like PostgreSQL ideal for enforcing referential integrity.
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor": "#0ea5e9",
+    "primaryTextColor": "#ffffff",
+    "primaryBorderColor": "#0369a1",
+    "lineColor": "#f43f5e",
+    "secondaryColor": "#8b5cf6"
+  }
+}}%%
 erDiagram
     USER ||--o{ PROJECT : "creates (owner)"
     USER ||--o{ BUILD_LOG : "writes"

@@ -26,6 +26,17 @@ Ran `npx prisma db push --accept-data-loss` to forcefully synchronize the local 
 The following diagram illustrates the updated error-handling flow for Authentication:
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor": "#10b981",
+    "primaryTextColor": "#ffffff",
+    "primaryBorderColor": "#047857",
+    "lineColor": "#6366f1",
+    "actorBkg": "#8b5cf6",
+    "actorTextColor": "#ffffff"
+  }
+}}%%
 sequenceDiagram
     participant U as User / UI
     participant APIClient as Next.js API Client

@@ -15,6 +15,17 @@ The domain model is structured to support the core value proposition of Develope
 ## 2. Entity Relationship Diagram
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor": "#4f46e5",
+    "primaryTextColor": "#ffffff",
+    "primaryBorderColor": "#312e81",
+    "lineColor": "#8b5cf6",
+    "secondaryColor": "#ec4899",
+    "tertiaryColor": "#14b8a6"
+  }
+}}%%
 erDiagram
     USER {
         String id PK
