@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import authRoutes from './routes/auth.routes';
-import userRoutes from './routes/user.routes';
+import authRoutes from './modules/auth/auth.routes';
+import userRoutes from './modules/user/user.routes';
 
 dotenv.config({ path: '../../.env' }); // Load from monorepo root
 
