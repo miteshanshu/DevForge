@@ -37,14 +37,38 @@ DevForge is built using a **Modular Monolith** architecture to optimize for spee
 ```text
 e:\devForge\
 ├── apps/
-│   ├── api/            # Express REST API
-│   └── web/            # Next.js 15 Frontend
-├── packages/
-│   ├── config/         # Shared configuration (ESLint, TSConfig)
-│   ├── db/             # Prisma schema, migrations, and database client
-│   ├── shared/         # Shared utilities and constants
-│   └── types/          # Shared TypeScript definitions
-└── docs/               # Architecture Decision Records (ADRs) and PRD
+│   ├── api/                  # Express REST API
+│   │   ├── src/
+│   │   │   ├── controllers/  # Route controllers
+│   │   │   ├── middleware/   # Express middleware
+│   │   │   ├── routes/       # API route definitions
+│   │   │   ├── schemas/      # Zod validation schemas
+│   │   │   └── utils/        # Utility functions
+│   │   └── package.json
+│   └── web/                  # Next.js 15 Frontend
+│       ├── public/           # Static assets
+│       ├── src/
+│       │   ├── app/          # Next.js app router pages
+│       │   ├── components/   # React components
+│       │   ├── lib/          # Utilities and API client
+│       │   └── stores/       # Zustand state stores
+│       └── package.json
+├── docs/                     # Documentation
+│   ├── architecture/         # System architecture walkthroughs
+│   ├── database/             # DB schema design
+│   ├── decisions/            # Architecture Decision Records (ADRs)
+│   ├── prd/                  # Product Requirements Document
+│   └── roadmap/              # Project Roadmap
+├── packages/                 # Shared Monorepo Packages
+│   ├── config/               # Shared configuration (ESLint, TSConfig)
+│   ├── db/                   # Prisma schema, migrations, and database client
+│   ├── shared/               # Shared utilities and constants
+│   └── types/                # Shared TypeScript definitions
+├── .env.example
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── turbo.json
 ```
 
 ---
