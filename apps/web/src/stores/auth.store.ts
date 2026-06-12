@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { apiClient } from '../lib/api-client';
 
-interface User {
+export interface User {
   id: string;
   email: string;
   username: string;

@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/stores/auth.store';
+import type { User } from '@/stores/auth.store';
 import { apiClient } from '@/lib/api-client';
 import { useRouter } from 'next/navigation';
 
@@ -95,13 +96,19 @@ export default function EditProfilePage() {
         },
       };
 
-      const result = await apiClient.request<{ user: { username: string; [key: string]: unknown } }>('/users/profile', {
+      const result = await apiClient.request<{ user: Partial<User> & Pick<User, 'username'> }>('/users/profile', {
         method: 'PUT',
         body: JSON.stringify(payload),
       });
 
-      if (result.user) {
-        setUser({ ...user, ...result.user });
+      if (result.user && user) {
+        setUser({
+          id: result.user.id ?? user.id,
+          email: result.user.email ?? user.email,
+          username: result.user.username,
+          name: result.user.name ?? user.name,
+          avatar: result.user.avatar ?? user.avatar,
+        });
         toast.success('Profile updated successfully');
         router.push(`/u/${result.user.username}`);
       }
