@@ -25,11 +25,12 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const data = await apiClient.post<{ user: any }>('/auth/register', { email, username, password });
+      const data = await apiClient.post<{ user: { id: string; email: string; username: string; name: string | null } }>('/auth/register', { email, username, password });
       setUser(data.user);
       router.push('/');
-    } catch (err: any) {
-      setError(err.message || 'Failed to register');
+    } catch (err: unknown) {
+      const error = err as Error;
+      setError(error.message || 'Failed to register');
     } finally {
       setLoading(false);
     }

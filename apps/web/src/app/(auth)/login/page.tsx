@@ -24,11 +24,12 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const data = await apiClient.post<{ user: any }>('/auth/login', { email, password });
+      const data = await apiClient.post<{ user: { id: string; email: string; username: string; name: string | null } }>('/auth/login', { email, password });
       setUser(data.user);
       router.push('/');
-    } catch (err: any) {
-      setError(err.message || 'Failed to login');
+    } catch (err: unknown) {
+      const error = err as Error;
+      setError(error.message || 'Failed to login');
     } finally {
       setLoading(false);
     }
@@ -98,7 +99,7 @@ export default function LoginPage() {
         </CardContent>
         <CardFooter className="flex flex-col space-y-4 text-sm text-center">
           <div>
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/register" className="text-primary hover:underline font-medium">
               Sign up
             </Link>

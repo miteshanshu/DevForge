@@ -5,11 +5,11 @@ import { apiClient } from '@/lib/api-client';
 
 async function getProfile(username: string) {
   try {
-    const data = await apiClient.get<any>(`/users/${username}`, {
+    const data = await apiClient.get<{ user: unknown }>(`/users/${username}`, {
       next: { revalidate: 60 },
     });
     return data.user;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -24,14 +24,14 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
 
   // Format activities from projects and build logs
   const activities = [
-    ...(profile.projects?.map((p: any) => ({
+    ...(profile.projects?.map((p: { id: string; title: string; createdAt: string; description: string }) => ({
       id: `proj-${p.id}`,
       type: 'PROJECT',
       title: `Created project: ${p.title}`,
       date: p.createdAt,
       description: p.description,
     })) || []),
-    ...(profile.buildLogs?.map((b: any) => ({
+    ...(profile.buildLogs?.map((b: { id: string; createdAt: string; content: string }) => ({
       id: `log-${b.id}`,
       type: 'BUILD_LOG',
       title: `Added a build log`,

@@ -6,7 +6,7 @@ interface User {
   email: string;
   username: string;
   name: string | null;
-  avatar?: any;
+  avatar?: string | null;
 }
 
 interface AuthState {
@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ isLoading: true });
       const data = await apiClient.get<{ user: User }>('/auth/me');
       set({ user: data.user, isAuthenticated: true, isLoading: false, isInitialized: true });
-    } catch (error) {
+    } catch {
       set({ user: null, isAuthenticated: false, isLoading: false, isInitialized: true });
     }
   },

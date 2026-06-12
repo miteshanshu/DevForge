@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowRight, Code2, TerminalSquare, Users, Zap, GitBranch, LayoutTemplate } from 'lucide-react';
+import { ArrowRight, Code2, TerminalSquare, Users, Zap, LayoutTemplate } from 'lucide-react';
 
 // MOCK DATA
 const featuredProjects = [

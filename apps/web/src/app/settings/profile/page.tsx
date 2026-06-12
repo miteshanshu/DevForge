@@ -55,7 +55,7 @@ export default function EditProfilePage() {
     const fetchProfile = async () => {
       if (!user?.username) return;
       try {
-        const data = await apiClient.get<any>(`/users/${user.username}`);
+        const data = await apiClient.get<{ user: { name?: string; bio?: string; location?: string; skills?: string[]; socialLinks?: Record<string, string> } }>(`/users/${user.username}`);
         if (data?.user) {
           reset({
             name: data.user.name || '',
@@ -68,7 +68,7 @@ export default function EditProfilePage() {
             linkedin: data.user.socialLinks?.linkedin || '',
           });
         }
-      } catch (error) {
+      } catch {
         toast.error('Failed to load profile data');
       }
     };
@@ -95,7 +95,7 @@ export default function EditProfilePage() {
         },
       };
 
-      const result = await apiClient.request<any>('/users/profile', {
+      const result = await apiClient.request<{ user: { username: string; [key: string]: unknown } }>('/users/profile', {
         method: 'PUT',
         body: JSON.stringify(payload),
       });
@@ -105,8 +105,9 @@ export default function EditProfilePage() {
         toast.success('Profile updated successfully');
         router.push(`/u/${result.user.username}`);
       }
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to update profile');
+    } catch (error: unknown) {
+      const err = error as Error;
+      toast.error(err.message || 'Failed to update profile');
     } finally {
       setIsLoading(false);
     }
